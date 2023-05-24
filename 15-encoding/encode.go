@@ -5,22 +5,24 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func main() {
 	var input, caesar, rot13 string
-	input = "This is a text to cipher into caesar and rot13 algorithms"
+	input = "Cipher me please"
+	input = strings.ToUpper(input)
 	for i := range input {
 		c := input[i]
 		r := input[i]
-		if input[i] >= 'A' && input[i] <= 'z' {
+		if input[i] >= 'A' && input[i] <= 'Z' {
 			c += 3
 			r += 13
-			if c > 'z' {
-				c = c - 26
+			if c > 'Z' {
+				c -= 26
 			}
-			if r > 'z' {
-				r = r - 26
+			if r > 'Z' {
+				r -= 26
 			}
 		}
 

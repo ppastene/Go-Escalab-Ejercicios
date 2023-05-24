@@ -3,39 +3,40 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 	"time"
 )
 
 func main() {
-
-	spacelines := [3]string{
-		"Space Adventures\t",
-		"SpaceX\t\t\t",
-		"Virgin Galactic\t\t",
-	}
+	const SECONDS_PER_DAY int = 86400
+	const MARS_DISTANCE int = 62100000
+	var company, trip string
+	var speed, days, price int
 
 	rand.Seed(time.Now().Unix())
-	fmt.Println("Spaceline\t\t", "Days\t", "Trip Type\t", "Price\t")
-	fmt.Println("----------------------------------------------------------")
+	fmt.Printf("%s\n", strings.Repeat("=", 58))
+	fmt.Printf("| %-16s | %-7s | %-4s | %-10s | %-5v |\n", "Spacelines", "Speed", "Days", "Trip", "Price")
+	fmt.Printf("%s\n", strings.Repeat("=", 58))
 	for i := 0; i < 10; i++ {
-		// Choose a random number between 16 and 30, the value is meausred in Km/h
-		speed := rand.Intn(30-16) + 16
-		// With the distance in Km between the earth and mars we get the time in hours, then we divide it by 24 to get the days
-		days := (62100000 / speed) / 24
-		// 1 or 0, if 1 it will represent a Round-Trip ticket, else will be a One-Way
-		roundTrip := rand.Intn(2)
-		// With the value of speed we align it with the price by 20, so the range is between 36 and 50
-		price := speed + 20
-		// We print a random space travel company
-		fmt.Printf(spacelines[rand.Intn(len(spacelines))])
-		// We print the days
-		fmt.Printf("%v\t", days)
-		// If the trip is Round-Trip we multiply the final price by 2
-		if roundTrip == 1 {
-			fmt.Printf("%s\t$%v\n", "Round-Trip", price*2)
-		} else {
-			fmt.Printf("%s\t\t$%v\n", "One-Way", price)
+		switch rand.Intn(3) {
+		case 0:
+			company = "Space Adventures"
+		case 1:
+			company = "SpaceX"
+		case 2:
+			company = "Virgin Galactic"
 		}
+		speed = rand.Intn(15) + 16
+		days = MARS_DISTANCE / speed / SECONDS_PER_DAY
+		price = speed + 20
+		switch rand.Intn(2) {
+		case 0:
+			trip = "One-Way"
+		case 1:
+			trip = "Round-Trip"
+			price *= 2
+		}
+		fmt.Printf("| %-16s | %v Km/h | %-4v | %-10s | $ %3v |\n", company, speed, days, trip, price)
 	}
-	fmt.Println("----------------------------------------------------------")
+	fmt.Printf("%s\n", strings.Repeat("=", 58))
 }
